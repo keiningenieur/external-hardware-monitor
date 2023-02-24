@@ -25,7 +25,7 @@
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
-![Showcase](pictures/main_showcase.jpg?raw=true) 
+![Showcase](pictures/top_showcase.jpg?raw=true) 
 
 <h1 align="center">external hardware monitor</h1>
 
@@ -50,13 +50,10 @@
   <summary>Table of Contents</summary>
   <ol>
     <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
+      <a href="#supplies">Supplies</a>
     </li>
     <li>
-      <a href="#getting-started">Getting Started</a>
+      <a href="#Assemble">Assemble</a>
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
@@ -73,34 +70,31 @@
 
 
 
-<!-- ABOUT THE PROJECT -->
-## About The Project
+<!-- Supplies -->
+## Supplies
+* microcontroller like an [arduino nano clone](https://www.amazon.de/AZDelivery-Atmega328-gratis-Arduino-kompatibel/dp/B01LWSJBTD/ref=asc_df_B01LWSJBTD/?tag=googshopde-21&linkCode=df0&hvadid=310491639325&hvpos=&hvnetw=g&hvrand=449149806729429256&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9068343&hvtargid=pla-654302475800&psc=1&th=1&psc=1&tag=&ref=&adgrpid=59900935617&hvpone=&hvptwo=&hvadid=310491639325&hvpos=&hvnetw=g&hvrand=449149806729429256&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9068343&hvtargid=pla-654302475800)
+* [0.91 inch OLED display](https://www.amazon.de/Seamuing-OLED-Anzeigemodul-I2C-Bildschirm-Tiny-Modul-Arduino/dp/B09BF7SQHS/ref=sr_1_1?__mk_de_DE=ÅMÅŽÕÑ&crid=2XERDY5GAMADR&keywords=OLED+0.91&qid=1677270192&s=industrial&sprefix=oled+0.91%2Cindustrial%2C103&sr=1-1)
+* usb-cable compatible with the microcontroller of your choice [(For arduino nanos & clones)](https://www.amazon.de/PremiumCord-Kabel-USB-Mini-5Pins/dp/B07NSQ511V/ref=sr_1_3?__mk_de_DE=ÅMÅŽÕÑ&crid=TTJ0S29PKF4M&keywords=usb+mini-b+kabel&qid=1677270349&s=industrial&sprefix=usb+mini-b+kabel%2Cindustrial%2C92&sr=1-3)
 
-
-
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-### Built With
-
-* [![Next][Next.js]][Next-url]
-* [![React][React.js]][React-url]
-* [![Vue][Vue.js]][Vue-url]
-* [![Angular][Angular.io]][Angular-url]
-* [![Svelte][Svelte.dev]][Svelte-url]
-* [![Laravel][Laravel.com]][Laravel-url]
-* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
-* [![JQuery][JQuery.com]][JQuery-url]
+### optional
+* 3D-printed holder
+  * [the one I used](https://www.thingiverse.com/thing:5788490)
+  * [all in one solution with an esp](https://www.thingiverse.com/thing:4550044)
+  * [another frame solution](https://www.thingiverse.com/thing:3514326)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+<!-- Assemble -->
+## Wiring
 
+### computer - microcontroller
 
-<!-- GETTING STARTED -->
-## Getting Started
+Connect your microcontroller via usb to your pc. Use an usb-port which you don't use often, as you will need to maintain this connection, for the applications to work. Every time you switch to an different usb-port, you'll have to change the port-number accordingly in the python application. 
+
+### microcontroller - oled display
+
+For the connection between the microcontroller and oled display use following wiring:
+![Showcase](pictures/fritzing.png?raw=true)
 
 This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
