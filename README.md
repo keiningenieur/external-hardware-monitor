@@ -49,26 +49,28 @@
 <details>
   <summary>Table of Contents</summary>
   <ol>
-    <li>
-      <a href="#supplies">Supplies</a>
-    </li>
-    <li>
-      <a href="#Assemble">Assemble</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#supplies">Supplies</a></li>
+    <li><a href="#wiring">Wiring</a></li>
+    <li><a href="#prerequisites">Prerequisites</a></li>
+    <li><a href="#configuration">Configuration</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
+<!-- Usage -->
+## Usage
+The application cycles between three windows indicating temperature and workload for CPU and GPU as well as workload and memory usage for the RAM.
+ 
+### CPU:
+![Showcase](pictures/CPU_Showcase.jpg?raw=true)
+### GPU:
+![Showcase](pictures/GPU_Showcase.jpg?raw=true)
+### RAM:
+![Showcase](pictures/RAM_Showcase.jpg?raw=true)
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- Supplies -->
 ## Supplies
@@ -84,7 +86,7 @@
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<!-- Assemble -->
+<!-- Wiring -->
 ## Wiring
 
 ### computer - microcontroller
@@ -93,82 +95,60 @@ Connect your microcontroller via usb to your pc. Use an usb-port which you don't
 
 ### microcontroller - oled display
 
-For the connection between the microcontroller and oled display use following wiring:
-![Showcase](pictures/fritzing.png?raw=true)
+For the connection between the microcontroller and oled display use the following wiring:
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+| microcontroller | oled display |
+| ------------- | ------------- |
+| 5V  | VIN  |
+| GND  | GND  |
+| A4(SDA)  | SDA  |
+| A5(SCL)  | SCL |
 
-### Prerequisites
+![Fritzing](pictures/fritzing.png?raw=true)
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### Installation
+<!-- Prerequisites -->
+## Prerequisites
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+For the application to work, you'll need to install [Open Hardware Monitor](https://openhardwaremonitor.org/downloads/).
+To install, just unpack the zip archive and run OpenHardwareMonitor.exe with Administrator rights. Otherwise, some hardware sensors are not accessible and could lead to errors.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+ 
+<!-- Configuration -->
+## Configuration
+    
+### python code 
+
+The project contains two different python application versions. [ehm_without_caps_detection.py](https://github.com/keiningenieur/external-hardware-monitor/blob/main/ehm_without_caps_detection.py) is the basic version, which collects sensor data from OpenHardwareMonitor and sends this data to the microcontroller. 
+For your setup, you'll have to find out the usb-port your microcontroller is connected to, e.g. via the device-manager -> connections (COM & LPT).
+<br>
+Now in line 6 change the com-port to the port your mircocontroller is connected to:
    ```sh
-   git clone https://github.com/github_username/repo_name.git
+   arduino = serial.Serial(port='COM7', baudrate=115200, timeout=.1)
    ```
-3. Install NPM packages
+
+
+
+
+[ehm_with_caps_detection.py](https://github.com/keiningenieur/external-hardware-monitor/blob/main/ehm_with_caps_detection.py) contains a section which detects if caps is active and sets a led strip ([WLED](https://kno.wled.ge)) into a different color-mode. For this feature, you will need a [WLED](https://kno.wled.ge)-Strip and configure the following lines (39-46) with the according ip-address:
    ```sh
-   npm install
+     if GetKeyState(VK_CAPITAL) == 1:
+        caps = str(1)
+        current = requests.get('http://0.0.0.0/json/state')
+        backup = current.text
+        response = requests.post('http://0.0.0.0/json', "{'on':  true, 'bri': 127, 'seg':[{'col':[[220,229,255],[0,0,0],[0,0,0]], 'fx':63,'sx':50}]}")
+        while GetKeyState(VK_CAPITAL) == 1:
+            time.sleep(1)
+        response = requests.post('http://0.0.0.0/json', backup)
    ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
+   
+### arduino code 
+
+[ehm_microcontroller.ino](https://github.com/keiningenieur/external-hardware-monitor/blob/main/ehm_microcontroller.ino) don't need any configuration. Just upload the code via the arduino ide to your microcontroller.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- USAGE EXAMPLES -->
-## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- ROADMAP -->
-## Roadmap
-
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
-
-See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- CONTRIBUTING -->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- LICENSE -->
 ## License
@@ -178,28 +158,14 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
+Philipp Schulz - m0l0t0w@web.de
 
-Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
-
-* []()
-* []()
-* []()
+Project Link: [https://github.com/keiningenieur/external-hardware-monitor](https://github.com/keiningenieur/external-hardware-monitor)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
